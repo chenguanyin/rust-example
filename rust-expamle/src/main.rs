@@ -1,6 +1,7 @@
 // use std::env;
 use rand::Rng;
 use std::cmp::Ordering;
+use std::fs::File;
 use std::io;
 // use std::fs;
 
@@ -68,6 +69,21 @@ fn main() {
             }
         }
     }
+
+    let mut v = vec![1, 2, 3, 4, 5];
+    let first = &v[0];
+    println!("The first element is: {}", first);
+    v.push(6);
+    println!("The first element is: {:#?}", v);
+
+    let f = File::open("./hello.txt").unwrap_or_else(|error| {
+        if (error.kind() == io::ErrorKind::NotFound) {
+            File::create("./hello.txt")
+                .unwrap_or_else(|error| panic!("Problem opening the file: {:?}", error))
+        } else {
+            panic!("Problem opening the file: {:?}", error)
+        }
+    });
 }
 
 #[cfg(test)]
